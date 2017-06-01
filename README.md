@@ -2,17 +2,16 @@
 
 We would like to thank you for taking the time to complete this assignment. We believe this to be an effective way of allowing you to show us your skills, on your own time, without the pressure of someone looking over your shoulder (like most live whiteboard tests). Your code will be used to help us decide if we'd like to proceed with the interview process. Please understand that completing this assignment doesn't guarantee a job or follow up interviews. We will keep you posted either way. Please reach out to jobs@doximity.com with any questions.
 
-_Note that it should take you 2-4 hours to complete this assignment._
+_Even thought there is no strict time limit, it should take you 2-6 hours to complete the assignment. Have fun!_
 
 
 ## Launch Requirements
 
-1. **VERY IMPORTANT:** **FORK** this repository, create a branch, complete work and create pull-request pointing at ****YOUR**** fork with your changes.
+1. Create a public repository on your own Github account, push your code there. (If you'd like to make it a public repos, freel free to just add @doximity-review as a collaborator to your repos.)
 2. **Use Ruby**, a style guide can be found [here](https://github.com/bbatsov/ruby-style-guide), use 2 soft-tabs.
 3. Use proper object orientation, abstraction and design patterns.
 3. Your application should run as a CLI (command line interface). Should flow almost like a text based game. In memory data store only.
-4. Once completed, email a link to your Pull Request to jobs@doximity.com
-
+4. Once completed, email us link to your repository.
 
 ## Your Mission
 
