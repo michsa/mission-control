@@ -10,9 +10,8 @@ _Even thought there is no strict time limit, it should take you 2-6 hours to com
 1. Create a public repository on your own Github account, push your code there. (If you'd like to make it a public repos, freel free to just add @doximity-review as a collaborator to your repos.)
 2. **Use Ruby**, a style guide can be found [here](https://github.com/bbatsov/ruby-style-guide), use 2 soft-tabs.
 3. Use proper object orientation, abstraction and design patterns.
-3. Your application should run as a CLI (command line interface). Should flow almost line a text based game. In memory data store only.
+3. Your application should run as a CLI (command line interface). Should flow almost like a text based game. In memory data store only.
 4. Once completed, email us link to your repository.
-
 
 ## Your Mission
 
