@@ -1,17 +1,17 @@
 ## Mission Control
 
-We would like to thank you for taking the time to complete this assignment. We believe this to be an effective way of allowing you to show us your skills, on your own time, without the pressure of someone looking over your shoulder (like most live whiteboard tests). Your code will be used to help us decide if we'd like to proceed with the interview process. Please understand that completing this assignment doesn't guarantee a job or follow up interviews. We will keep you posted either way. Please reach out to jobs@doximity.com with any questions.
+We would like to thank you for taking the time to complete this assignment. We believe this to be an effective way of allowing you to show us your skills, on your own time, without the pressure of someone looking over your shoulder (like most live whiteboard tests). Your code will be used to help us decide if we'd like to proceed with the interview process. Please understand that completing this assignment doesn't guarantee a job or follow up interviews. We will keep you posted either way. 
 
 _Even thought there is no strict time limit, it should take you 2-6 hours to complete the assignment. Have fun!_
 
 
 ## Launch Requirements
 
-1. Create a public repository on your own Github account, push your code there. (If you'd like to make it a public repos, freel free to just add @doximity-review as a collaborator to your repos.)
+1. Create a Github FORK of this repository on your own github account. Create a public repository on your own Github account, push your pull-request to **your own fork**
 2. **Use Ruby**, a style guide can be found [here](https://github.com/bbatsov/ruby-style-guide), use 2 soft-tabs.
 3. Use proper object orientation, abstraction and design patterns.
 3. Your application should run as a CLI (command line interface). Should flow almost like a text based game. In memory data store only.
-4. Once completed, email us link to your repository.
+4. Once completed, email your point of contact at Doximity a link to your respository. 
 
 ## Your Mission
 
