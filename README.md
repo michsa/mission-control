@@ -1,6 +1,6 @@
 ## Mission Control
 
-We would like to thank you for taking the time to complete this assignment. We believe this to be an effective way of allowing you to show us your skills, on your own time, without the pressure of someone looking over your shoulder (like most live whiteboard tests). Your code will be used to help us decide if we'd like to proceed with the interview process. Please understand that completing this assignment doesn't guarantee a job or follow up interviews. We will keep you posted either way. 
+We would like to thank you for taking the time to complete this assignment. We believe this to be an effective way of allowing you to show us your skills, on your own time, without the pressure of someone looking over your shoulder (like most live whiteboard tests). Your code will be used to help us decide if we'd like to proceed with the interview process. Please understand that completing this assignment doesn't guarantee a job or follow up interviews. We will keep you posted either way.
 
 _Even thought there is no strict time limit, it should take you 2-6 hours to complete the assignment. Have fun!_
 
@@ -11,7 +11,7 @@ _Even thought there is no strict time limit, it should take you 2-6 hours to com
 2. **Use Ruby**, a style guide can be found [here](https://github.com/bbatsov/ruby-style-guide), use 2 soft-tabs.
 3. Use proper object orientation, abstraction and design patterns.
 3. Your application should run as a CLI (command line interface). Should flow almost like a text based game. In memory data store only. The player should be able to play as many missions as they would like. At the end of each mission you should output a summary of the mission. At the end of all missions you need to output the final summary.
-4. Once completed, email your point of contact at Doximity a link to your respository. 
+4. Once completed, email your point of contact at Doximity a link to your respository.
 
 ## Your Mission
 
@@ -58,3 +58,7 @@ _Your mission, should you choose to accept it, is to launch our rocket into low 
     4. Total Fuel burned (for all missions combined)
     5. Flight time (for all missions combined)
 
+#### Sample Output
+
+![image](resources/output-1.png)
+![image](resources/output-2.png)
