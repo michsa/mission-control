@@ -10,7 +10,7 @@ _Even thought there is no strict time limit, it should take you 2-6 hours to com
 1. Create a Github FORK of this repository on your own Github account. Ppush your pull-request to **your own fork**
 2. **Use Ruby**, a style guide can be found [here](https://github.com/bbatsov/ruby-style-guide), use 2 soft-tabs.
 3. Use proper object orientation, abstraction and design patterns.
-3. Your application should run as a CLI (command line interface). Should flow almost like a text based game. In memory data store only.
+3. Your application should run as a CLI (command line interface). Should flow almost like a text based game. In memory data store only. The player should be able to play as many missions as they would like. At the end of each mission you should output a summary of the mission. At the end of all missions you need to output the final summary.
 4. Once completed, email your point of contact at Doximity a link to your respository. 
 
 ## Your Mission
@@ -42,7 +42,7 @@ _Your mission, should you choose to accept it, is to launch our rocket into low 
     4. One in every 3rd launch, will require an abort and retry after stage 1 (randomize).
     5. One in every 5th launch will explode (randomize).
 
-#### Necessary instrumentation information to be provided inline.
+#### Necessary instrumentation information to be provided at the end of each mission.
 
     1. Current fuel burn rate at select % of speed.
     2. Current speed
@@ -50,11 +50,11 @@ _Your mission, should you choose to accept it, is to launch our rocket into low 
     4. Elased time
     5. Time to destination
 
-#### Final Summary to be provided at end of all attempted missions, broken up by mission.
+#### Final Summary to be provided at end of all attempted missions.
 
-    1. Distance traveled
-    2. Number of abort/retries
-    3. Fuel burned/remaining
-    4. Time traveled
-    5. Number of explosions
+    1. Total distance traveled (for all missions combined)
+    2. Number of abort and retries
+    3. Number of explosions
+    4. Total Fuel burned (for all missions combined)
+    5. Flight time (for all missions combined)
 
