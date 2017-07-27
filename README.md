@@ -7,7 +7,7 @@ _Even though there is no strict time limit, it should take you 2-6 hours to comp
 
 ## Launch Requirements
 
-1. Create a Github **FORK** of this repository on your own Github account. Push your pull-request to **your own fork**. Do not push your PR to the upstream, **this is the default when creating the PR so please**. 
+1. Create a Github **FORK** of this repository on your own Github account. Push your pull-request to **your own fork**. Do not push your PR to the upstream, **this is the default when creating the PR so pay close attention.**. 
 2. **Use Ruby**, a style guide can be found [here](https://github.com/bbatsov/ruby-style-guide), use 2 soft-tabs.
 3. Use proper object orientation, abstraction and design patterns.
 3. Your application should run as a CLI (command line interface). Should flow like a text based game. in memory data store is fine. The player should be able to play as many missions as they would like. At the end of each mission you should output a summary of the mission. At the end of all missions output the final summary.
