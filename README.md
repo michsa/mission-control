@@ -2,12 +2,12 @@
 
 We would like to thank you for taking the time to complete this assignment. We believe this to be an effective way of allowing you to show us your skills, on your own time, without the pressure of someone looking over your shoulder. Your code will be used to help us decide if we'd like to proceed with the interview process. Please understand that completing this assignment doesn't guarantee follow up interviews. We will keep you posted either way.
 
-_Even thought there is no strict time limit, it should take you 2-6 hours to complete the assignment. Have fun!_
+_Even though there is no strict time limit, it should take you 2-6 hours to complete the assignment. Have fun!_
 
 
 ## Launch Requirements
 
-1. Create a Github **FORK** of this repository on your own Github account. Push your pull-request to **your own fork**
+1. Create a Github **FORK** of this repository on your own Github account. Push your pull-request to **your own fork**. Do not push your PR to the upstream, **this is the default when creating the PR so please**. 
 2. **Use Ruby**, a style guide can be found [here](https://github.com/bbatsov/ruby-style-guide), use 2 soft-tabs.
 3. Use proper object orientation, abstraction and design patterns.
 3. Your application should run as a CLI (command line interface). Should flow like a text based game. in memory data store is fine. The player should be able to play as many missions as they would like. At the end of each mission you should output a summary of the mission. At the end of all missions output the final summary.
