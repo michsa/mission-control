@@ -1,17 +1,28 @@
 ## Mission Control
 
-Thank you for taking the time to complete this assignment. We believe this to be an effective way to showcase your skills, on your own time, without the pressure of someone looking over your shoulder. Your code will help us decide if we'd like to proceed with the interview process. Please understand that completing this assignment doesn't guarantee follow up interviews. We will keep you posted either way.
+We would like to thank you for taking the time to complete this assignment. We believe this to be an effective way of allowing you to show us your skills, on your own time, without the pressure of someone looking over your shoulder. Your code will be used to help us decide if we'd like to proceed with the interview process. Please understand that completing this assignment doesn't guarantee follow up interviews. We will keep you posted either way. Reach out to point of contact at Doximity with any questions.
 
 _Even though there is no strict time limit, it should take you 3-5 hours to complete the assignment. Have fun!_
 
 
+## How to Submit your Completed Assignment
+
+1. Provide your Doximity point of contact with your GitLab username (create a new account if you do not already have one). Your point of contact will add you to the challenge's repository. Once you've been added, you should see in the Project tab the `mission-control` project containing the challenge instructions.
+2. Fork the `mission-control` repository.
+3. In the `mission-control` project tab, click on `Members`. Under `Project members`, click on the `Add member` tab. Under `Select members to invite`, please type in `doximity-review` and choose the `Reporter` role permission. When done, click `Add to project`. This will enable us to review your challenge submission (turned in as a `Merge Request`) when complete.
+4. In the forked `mission-control` project, create a new branch `lastname-firstname`. Work on the assignment and commit your changes to the `lastname-firstname` branch.
+5. After completing the assignment and having committed all your changes, create a new `Merge Request`. Add `doximity-review` as an assignee, so we are notified you have submitted the `Merge Request`. We will then review your submission and get back to you.
+
 ## Launch Requirements
 
-1. Create a Github **FORK** of this repository on your own Github account. Create a new branch and pull-request to **your own fork**. Do not create a pull-request against the original repository doximity/mission-control **NOTE: this is the default when creating the pull-request so pay close attention.** 
-2. **Use Ruby**, a style guide can be found [here](https://github.com/bbatsov/ruby-style-guide), use 2 soft-tabs.
-3. Use proper object orientation, abstraction and design patterns.
-3. Your application should run as a CLI (command line interface) and should flow like a text based game. In memory data store is perfectly fine. The player should be able to play as many missions as they would like. At the end of each mission you should output a summary of the mission. At the end of all missions, output the final summary.
+1. **Use Ruby**, a style guide can be found [here](https://github.com/bbatsov/ruby-style-guide), use 2 soft-tabs.
+2. Use proper object orientation, abstraction and design patterns.
+3. Your application should run as a CLI (command line interface). Should flow like a text based game. in memory data store is fine. The player should be able to play as many missions as they would like. At the end of each mission you should output a summary of the mission. At the end of all missions output the final summary.
 4. Once completed, email your point of contact at Doximity a link to your respository.
+
+## What to Expect After You Submit
+
+Our team will be notified and review your submission within 3 days. We will check the output, quality of the code, documentation, ease of maintenance, and performance of the solution. We know your time is valuable and appreciate you taking the time to complete this assignment. *If any questions come up, please send an email to your Doximity point of contact.*
 
 ## Your Mission
 
