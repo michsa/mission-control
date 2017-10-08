@@ -54,7 +54,83 @@ _Your mission, should you choose to accept it, is to launch the rocket into low 
     4. Total fuel burned (for all missions combined)
     5. Total flight time (for all missions combined)
 
-#### Sample Output
+#### Sample Session
 
-![image](resources/output-1.png)
-![image](resources/output-2.png)
+```
+Welcome to Mission Control!
+Mission plan:
+  Travel distance:  160.0 km
+  Payload capacity: 50,000 kg
+  Fuel capacity:    1,514,100 liters
+  Burn rate:        168,240 liters/min
+  Average speed:    1,500 km/h
+  Random seed:      12
+What is the name of this mission? Minerva
+Would you like to proceed? (Y/n) Y
+Engage afterburner? (Y/n) Y
+Afterburner engaged!
+Release support structures? (Y/n) Y
+Support structures released!
+Perform cross-checks? (Y/n) Y
+Cross-checks performed!
+Launch? (Y/n) Y
+Launched!
+Mission status:
+  Current fuel burn rate: 151,416 liters/min
+  Current speed: 1,350 km/h
+  Current distance traveled: 12.5 km
+  Elapsed time: 0:00:30
+  Time to destination: 0:05:54
+Mission status:
+  Current fuel burn rate: 153,098 liters/min
+  Current speed: 1,365 km/h
+  Current distance traveled: 24.82 km
+  Elapsed time: 0:01:00
+  Time to destination: 0:05:27
+
+(...)
+
+Mission status:
+  Current fuel burn rate: 164,875 liters/min
+  Current speed: 1,470 km/h
+  Current distance traveled: 137.34 km
+  Elapsed time: 0:05:30
+  Time to destination: 0:00:55
+Mission status:
+  Current fuel burn rate: 154,780 liters/min
+  Current speed: 1,380 km/h
+  Current distance traveled: 149.93 km
+  Elapsed time: 0:06:00
+  Time to destination: 0:00:25
+Mission summary:
+  Total distance traveled: 160.36 km
+  Number of abort and retries: 0/0
+  Number of explosions: 0
+  Total fuel burned: 1,079,091 liters
+  Flight time: 0:06:25
+Would you like to run another mission? (Y/n) Y
+Mission plan:
+  Travel distance:  160.0 km
+  Payload capacity: 50,000 kg
+  Fuel capacity:    1,514,100 liters
+  Burn rate:        168,240 liters/min
+  Average speed:    1,500 km/h
+  Random seed:      12
+What is the name of this mission? Minerva II
+Would you like to proceed? (Y/n) Y
+Engage afterburner? (Y/n) Y
+Afterburner engaged!
+Release support structures? (Y/n) Y
+Support structures released!
+Perform cross-checks? (Y/n) Y
+Cross-checks performed!
+Launch? (Y/n) Y
+Mission aborted!
+Mission summary:
+  Total distance traveled: 160.36 km
+  Number of abort and retries: 1/1
+  Number of explosions: 0
+  Total fuel burned: 1,079,091 liters
+  Flight time: 0:06:25
+Would you like to run another mission? (Y/n) n
+```
