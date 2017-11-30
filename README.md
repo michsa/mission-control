@@ -7,11 +7,12 @@ _Even though there is no strict time limit, it should take you 3-5 hours to comp
 
 ## How to Submit your Completed Assignment
 
-1. Provide your Doximity point of contact with your GitLab username (create a new account if you do not already have one). Your point of contact will add you to the challenge's repository. Once you've been added, you should see in the Project tab the `mission-control` project containing the challenge instructions.
-2. Fork the `mission-control` repository.
-3. In the `mission-control` project tab, click on `Members`. Under `Project members`, click on the `Add member` tab. Under `Select members to invite`, please type in `doximity-review` and choose the `Reporter` role permission. When done, click `Add to project`. This will enable us to review your challenge submission (turned in as a `Merge Request`) when complete.
-4. In the forked `mission-control` project, create a new branch `lastname-firstname`. Work on the assignment and commit your changes to the `lastname-firstname` branch.
-5. After completing the assignment and having committed all your changes, create a new `Merge Request`. Add `doximity-review` as an assignee, so we are notified you have submitted the `Merge Request`. We will then review your submission and get back to you.
+1. Fork the `mission-control` repository by visiting [this page](https://gitlab.com/doximity-review/mission-control/forks) and clicking the fork button on the top right.
+2. Create a new branch by visiting https://gitlab.com/`YOUR-GITLAB`/mission-control/branches - name your branch after your `firstname-lastname`.
+3. At this point, you can grab the SSH URL at the top of https://gitlab.com/`YOUR-GITLAB`/mission-control, clone the repository locally and do you work on the newly created branch.
+4. Visit https://gitlab.com/`YOUR-GITLAB`/mission-control/project_members under "Add a Member" type in `doximity-review` under "Select members to invite", select a role of `Master` and click "Add to project".
+4. Once you are ready to submit your work, go back to https://gitlab.com/`YOUR-GITLAB`/mission-control and click on "Create merge Request" on the top right.
+5. From the page above, title and describe your assignment. Then select `doximity-review` from the "Assignee" dropdown, and click the "Submit merge request" button.
 
 ## Launch Requirements
 
