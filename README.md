@@ -50,7 +50,7 @@ _Your mission, should you choose to accept it, is to launch the rocket into low 
 
     1. Manually transition between launch stages in the expected order
     2. Mission control should be able to safely abort launch after stage 1 and retry
-    3. One in every 3rd launch will require an abort and retry after stage 1 randomize when it actually happens
+    3. One in every 3rd launch will require an abort and retry after stage 1, randomize when it actually happens
     4. One in every 5th launch will explode, randomize when it actually happens
 
 #### Necessary instrumentation information to be provided at the end of each mission
