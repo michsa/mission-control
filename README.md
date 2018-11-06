@@ -18,8 +18,9 @@ _Even though there is no strict time limit, it should take you 3-5 hours to comp
 
 1. **Use Ruby**, a style guide can be found [here](https://github.com/bbatsov/ruby-style-guide), use 2 soft-tabs.
 2. Use proper object orientation, abstraction and design patterns.
-3. Your application should run as a CLI (command line interface). Should flow like a text based game. in memory data store is fine. The player should be able to play as many missions as they would like. At the end of each mission you should output a summary of the mission. At the end of all missions output the final summary.
-4. Once completed, email your point of contact at Doximity a link to your respository.
+3. Doximity's space program is still decades away so we won't be judging your physics knowledge: make a game not a simulation.
+4. Your application should run as a CLI (command line interface). Should flow like a text based game. In memory data store is fine. The player should be able to play as many missions as they would like. At the end of each mission you should output a summary of the mission. At the end of all missions output the final summary.
+5. Once completed, email your point of contact at Doximity a link to your respository.
 
 ## What to Expect After You Submit
 
@@ -55,7 +56,7 @@ _Your mission, should you choose to accept it, is to launch the rocket into low 
 
 #### Necessary instrumentation information to be provided at the end of each mission
 
-    1. Total distance traveled (if aborted this would be 0, if exploded, pick a random spot in the timeline). 
+    1. Total distance traveled (if aborted this would be 0, if exploded, pick a random spot in the timeline).
     2. Total travel time (same as above)
 
 #### Final Summary to be provided at end of all attempted missions.
