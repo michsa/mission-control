@@ -26,7 +26,7 @@ let currentSpeed = new Qty(0, 'km/h')
 let averageSpeed = new Qty(0, 'km/h')
 let currentBurnRate = new Qty(0, 'l/m')
 let distanceTraveled = new Qty(0, 'km')
-let timeElapsed = 0 // leave this as a scalar in ms 
+let timeElapsed = new Qty(0, 's')
 
 let timer = null
 
@@ -67,22 +67,22 @@ Launch status:
 `)
 }
 
-const calcTimeToDestination = () => averageSpeed.scalar ? distance.sub(distanceTraveled).div(averageSpeed) : averageSpeed
+const calcTimeToDestination = () => averageSpeed.scalar ? distance.sub(distanceTraveled).div(averageSpeed) : new Qty(0, 's')
 
 const calcAverageSpeed = () => {
-  let samples = new Qty(timeElapsed / updateInterval, '')
+  let samples = timeElapsed.div(new Qty(updateInterval, 'ms'))
   return averageSpeed.mul(samples).add(currentSpeed).div(samples.add('1'))
 }
 
 const missionStatus = () => {
   console.log(`
 Mission status:
-  Elapsed time:        ${timeElapsed} ms
+  Elapsed time:        ${timeElapsed.toPrec(1)}
   Fuel burn rate:      ${currentBurnRate}
   Current speed:       ${currentSpeed.toPrec(0.1)}
   Average speed:       ${averageSpeed.toPrec(0.1)}
   Distance traveled:   ${distanceTraveled.toPrec(0.1)}
-  Time to destination: ${calcTimeToDestination().to('minutes').toPrec(0.01)}
+  Time to destination: ${calcTimeToDestination().to('s').toPrec(0.01)}
 `)
 }
 
@@ -94,7 +94,7 @@ const runMission = () => {
     currentSpeed = currentSpeed.add(new Qty(10, 'm/s'))
     averageSpeed = calcAverageSpeed()
     distanceTraveled = distanceTraveled.add(currentSpeed.mul(new Qty(updateInterval, 'ms')))
-    timeElapsed += updateInterval
+    timeElapsed = timeElapsed.add(new Qty(updateInterval, 'ms'))
     missionStatus()
 
     if (distanceTraveled.gte(distance)) clearInterval(timer)
