@@ -1,0 +1,24 @@
+{
+  "name": "mission-control",
+  "version": "1.0.0",
+  "description": "We would like to thank you for taking the time to complete this assignment. We believe this to be an effective way of allowing you to show us your skills, on your own time, without the pressure of someone looking over your shoulder. Your code will be used to help us decide if we'd like to proceed with the interview process. Please understand that completing this assignment doesn't guarantee follow up interviews. We will keep you posted either way. Reach out to your point of contact at Doximity with any questions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/michsa/mission-control.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/michsa/mission-control/issues"
+  },
+  "homepage": "https://gitlab.com/michsa/mission-control#readme",
+  "dependencies": {
+    "js-quantities": "^1.7.4",
+    "lodash": "^4.17.15",
+    "readline-sync": "^1.4.10"
+  }
+}
