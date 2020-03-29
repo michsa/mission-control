@@ -1,7 +1,13 @@
 const rs = require('readline-sync')
 const Qty = require('js-quantities')
 
-// constants
+let seed = 1
+let random = () => {
+    let x = Math.sin(seed++) * 10000
+    return x - Math.floor(x)
+}
+
+// --- constants ---
 
 const actions = {
   afterburner: false,
@@ -12,7 +18,7 @@ const actions = {
 }
 const updateInterval = 100
 
-/// parameters
+/// --- parameters ---
 
 let distance = new Qty(160, 'km') // km
 let payload = new Qty(50000, 'kg') // kg
@@ -20,7 +26,7 @@ let fuel = new Qty(1514100, 'l') // liters
 let targetBurnRate = new Qty(168240, 'l/m') // liters per minute
 let targetSpeed = new Qty(1500, 'km/h') // km/h
 
-// mission state
+// --- mission state ---
 
 let currentSpeed = new Qty(0, 'km/h')
 let averageSpeed = new Qty(0, 'km/h')
@@ -30,7 +36,16 @@ let timeElapsed = new Qty(0, 's')
 
 let timer = null
 
-// ---
+// --- calculations ---
+
+const calcTimeToDestination = () => averageSpeed.scalar ? distance.sub(distanceTraveled).div(averageSpeed) : new Qty(0, 's')
+
+const calcAverageSpeed = () => {
+  let samples = timeElapsed.div(new Qty(updateInterval, 'ms'))
+  return averageSpeed.mul(samples).add(currentSpeed).div(samples.add('1'))
+}
+
+// --- output formatting ---
 
 const startMission = () => {
   console.log(`
@@ -45,19 +60,6 @@ Mission plan:
 `)
 }
 
-const performAction = action => {
-  actions[action] = true
-  actions.sequence.push(action)
-  console.log(
-    {
-      afterburner: 'Afterburner engaged!',
-      supports: 'Support structures released!',
-      crossChecks: 'Cross-checks performed!',
-      launch: 'Launched!',
-    }[action]
-  )
-}
-
 const launchStatus = () => {
   console.log(`
 Launch status:
@@ -65,13 +67,6 @@ Launch status:
   Support structure:   ${actions.supports ? 'ENGAGED' : 'DISENGAGED'}
   Cross-check status:  ${actions.crossChecks ? 'OK' : 'UNKNOWN'}
 `)
-}
-
-const calcTimeToDestination = () => averageSpeed.scalar ? distance.sub(distanceTraveled).div(averageSpeed) : new Qty(0, 's')
-
-const calcAverageSpeed = () => {
-  let samples = timeElapsed.div(new Qty(updateInterval, 'ms'))
-  return averageSpeed.mul(samples).add(currentSpeed).div(samples.add('1'))
 }
 
 const missionStatus = () => {
@@ -85,6 +80,23 @@ Mission status:
   Time to destination: ${calcTimeToDestination().to('s').toPrec(0.01)}
 `)
 }
+
+// --- input handling ---
+
+const performAction = action => {
+  actions[action] = true
+  actions.sequence.push(action)
+  console.log(
+    {
+      afterburner: 'Afterburner engaged!',
+      supports: 'Support structures released!',
+      crossChecks: 'Cross-checks performed!',
+      launch: 'Launched!',
+    }[action]
+  )
+}
+
+// --- loop ---
 
 const runMission = () => {
   startMission()
