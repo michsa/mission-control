@@ -15,6 +15,9 @@ const calcGravitationalAcceleration = height => {
 const calcWeightAtAltitude = (mass, height) =>
   mass.mul(calcGravitationalAcceleration(height))
 
+// impulse (m/s) = thrust (N or kgm/s^2) / mass flow rate (kg/s)
+// specific impulse (s) = thrust (N or kgm/s^2) / weight flow rate (N/s or kgm/s^3)
+// thrust (N or kgm/s^2) = impulse (s) * mass flow rate (kg/s) * gravitation acceleration (m/s^2)
 const calcThrust = (impulse, massFlowRate) =>
   impulse.mul(massFlowRate).mul('1 gee')
 
@@ -24,8 +27,9 @@ const calcForce = (thrust, weight) => thrust.sub(weight)
 
 const calcAcceleration = (force, mass) => force.div(mass)
 
-module.exports = { calcForce, calcAcceleration }
-
-// impulse (m/s) = thrust (N or kgm/s^2) / mass flow rate (kg/s)
-// specific impulse (s) = thrust (N or kgm/s^2) / weight flow rate (N/s or kgm/s^3)
-// thrust (N or kgm/s^2) = impulse (s) * mass flow rate (kg/s) * gravitation acceleration (m/s^2)
+module.exports = {
+  calcThrust,
+  calcWeightAtAltitude,
+  calcForce,
+  calcAcceleration,
+}
