@@ -29,7 +29,14 @@ const state = {
   // That actually sounds more realistic for a rocket, so I'm going to assume
   // that the fuel is *NOT* included and that this value is the actual payload.
   payload: new Qty(50000, 'kg'),
-  fuel: new Qty(151410, 'l'),
+  _fuel: new Qty(151410, 'l'),
+  get fuel() {
+    return this._fuel
+  },
+  set fuel(x) {
+    if (x.scalar < 0) x.scalar = 0
+    this._fuel = x
+  },
   fuelDensity: new Qty(0.9, 'g/ml'), // https://en.wikipedia.org/wiki/RP-1
   burnRate: new Qty(16824, 'l/s'),
   // Specific impulse is a measure of the efficiency of a rocket and allows us
@@ -41,7 +48,15 @@ const state = {
 
   currentSpeed: new Qty(0, 'km/h'),
   averageSpeed: new Qty(0, 'km/h'),
-  distanceTraveled: new Qty(0, 'km'),
+  _distanceTraveled: new Qty(0, 'km'),
+  get distanceTraveled() {
+    return this._distanceTraveled
+  },
+  set distanceTraveled(x) {
+    if (x.scalar < 0) x.scalar = 0
+    else if (x.gt(this.distance)) x = this.distance
+    this._distanceTraveled = x
+  },
   timeElapsed: new Qty(0, 's'),
 
   // --- calculations ---
@@ -98,18 +113,22 @@ Mission plan:
 
 const missionStatus = () => {
   console.log(`
-Mission status:
-  Elapsed time:        ${state.timeElapsed.toPrec(0.1)}
-  Fuel burn rate:      ${state.burnRate}
-  Current speed:       ${state.currentSpeed.toPrec(0.1)}
-  Average speed:       ${state.averageSpeed.toPrec(0.1)}
-  Distance traveled:   ${state.distanceTraveled.toPrec(0.1)}
-  Time to destination: ${state.timeToDestination.to('s').toPrec(0.1)}
-  ---
-  Fuel remaining: ${state.fuel.toPrec(0.1)}
-  Mass:           ${state.mass.toPrec(0.1)}
-  Thrust:         ${state.thrust.toPrec(0.1)}
-  Acceleration:   ${state.acceleration.toPrec(0.1)}
+===============================
+        MISSION STATUS             
+-------------------------------
+  Elapsed time : ${state.timeElapsed.toPrec(0.1)}
+Dist. traveled : ${state.distanceTraveled.toPrec(0.01)}
+Time to arrval : ${state.timeToDestination.to('s').toPrec(0.1)}
+-------------------------------
+ Current speed : ${state.currentSpeed.toPrec(0.1)}
+ Average speed : ${state.averageSpeed.toPrec(0.1)}
+  Acceleration : ${state.acceleration.to('m/s*s').toPrec(0.01)}
+-------------------------------
+Fuel burn rate : ${state.burnRate}
+Fuel remaining : ${state.fuel.toPrec(0.1)}
+    Total mass : ${state.mass.toPrec(0.1)}
+        Thrust : ${state.thrust.to('N').toPrec(0.1)}
+-------------------------------
 `)
 }
 
