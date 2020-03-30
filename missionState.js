@@ -7,6 +7,10 @@ const {
 } = require('./formulas')
 
 module.exports = settings => ({
+  // NOTE: The values in `settings` are references to Qty objects, so mutating
+  // them here will mutate the settings themselves. Now that we carry settings
+  // between missions, we probably want to make sure they're not being mutated
+  // inappropriately (eg, by deep cloning this instead of just spreading it).
   ...settings,
 
   // --- mutated externally ---
@@ -32,8 +36,8 @@ module.exports = settings => ({
     if (x.gt(this.fuel)) x = this.fuel
     this._fuelBurned = x
   },
+  burnRate: new Qty(settings.targetBurnRate),
   
-
   // --- computed ---
 
   get timeToDestination() {
