@@ -1,6 +1,7 @@
 const rls = require('readline-sync')
 const configureSettings = require('./settings')
 const runMission = require('./mission')
+const { programSummary } = require('./messages')
 
 console.log('Welcome to Mission Control!')
 
@@ -19,6 +20,7 @@ let main = async () => {
       settings = configureSettings(settings)
       let missionResults = await runMission(settings)
       missions.push(missionResults)
+      programSummary(missions)
       playAgain = rls.keyInYN('Would you like to run another mission?')
     }
   } catch (e) {

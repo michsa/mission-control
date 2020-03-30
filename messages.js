@@ -37,24 +37,27 @@ Fuel remaining : ${state.fuel.toPrec(0.1)}
 -------------------------------`)
 }
 
-const missionSummary = missions => {
+const programSummary = missions => {
   const printStatusTotals = status => {
-    let total = _.countBy({ status }, missions)
+    let total = _.countBy({ status }, missions)[true] || 0
     let percentage = (total / _.size(missions)) * 100
     return `${total} (${percentage}%)`
   }
+  const sumBy = key =>
+    _.reduce((acc, x) => (acc ? acc.add(x[key]) : x[key]), undefined, missions)
+
   console.log(`
 ===============================
-        MISSION SUMMARY             
+        PROGRAM SUMMARY             
 -------------------------------
-Total distance : 160.36 km
-Total missions : 123
+Total distance : ${sumBy('distanceTraveled').toPrec(0.1)}
+Total missions : ${_.size(missions)}
    # successes : ${printStatusTotals('succeeded')}
       # aborts : ${printStatusTotals('aborted')}
   # explosions : ${printStatusTotals('exploded')}
      # crashes : ${printStatusTotals('crashed')}
-   Fuel burned : ${_.sumBy('fuelBurned', missions)}
-   Flight time : 0:06:25
+   Fuel burned : ${sumBy('fuel').toPrec(0.1)}
+   Flight time : ${sumBy('timeElapsed').toPrec(0.1)}
 `)
 }
 
@@ -70,9 +73,4 @@ const statusBanner = status => {
   console.log('*******************************\n')
 }
 
-module.exports = {
-  missionPlan,
-  missionStatus,
-  missionSummary,
-  statusBanner,
-}
+module.exports = { missionPlan, missionStatus, programSummary, statusBanner }
