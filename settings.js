@@ -4,8 +4,9 @@ const _ = require('lodash/fp')
 const { missionPlan } = require('./messages')
 const { configureFirstTime } = require('./config')
 
-/* Returns a settings object that is used to configure the mission parameters
-for the next mission. Also contains defaults for those. */
+// Exports a function that optionally takes a settings object (see defaultSettings)
+// with the settings from the last-run mission, and returns a new settings object.
+// All the prompts and so on for configuring mission settings are handled in here.
 
 const defaultSettings = {
   distance: new Qty(160, 'km'),
@@ -21,7 +22,7 @@ const defaultSettings = {
   // Specific impulse is a measure of the efficiency of a rocket and allows us
   // to calculate thrust from the burn rate (as mass flow rate) of our fuel.
   // https://en.wikipedia.org/wiki/Specific_impulse#Specific_impulse_in_seconds
-  impulse: new Qty(250, 's'),
+  impulse: new Qty(250, 's')
 }
 
 const parseInput = (input, origValue) => {
@@ -52,7 +53,7 @@ compatible with current units.
     let origValue = new Qty(settings[key])
     do {
       let input = rls.question(`${message} (${origValue}) `, {
-        defaultInput: origValue,
+        defaultInput: origValue
       })
       settings[key] = parseInput(input, origValue)
     } while (settings[key] === null)

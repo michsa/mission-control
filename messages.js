@@ -7,8 +7,8 @@ const welcomeBanner = () => {
 |                             |
 * Welcome to Mission Control! *
 |                             |
-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*`
-  )}
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*`)
+}
 
 const missionPlan = settings => {
   console.log(`
@@ -86,5 +86,5 @@ module.exports = {
   missionPlan,
   missionStatus,
   programSummary,
-  statusBanner,
+  statusBanner
 }

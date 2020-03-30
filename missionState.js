@@ -3,7 +3,7 @@ const {
   calcAcceleration,
   calcForce,
   calcThrust,
-  calcWeight,
+  calcWeight
 } = require('./formulas')
 
 module.exports = settings => ({
@@ -37,7 +37,7 @@ module.exports = settings => ({
     this._fuelBurned = x
   },
   burnRate: new Qty(settings.targetBurnRate),
-  
+
   // --- computed ---
 
   get timeToDestination() {
@@ -56,11 +56,8 @@ module.exports = settings => ({
   },
   get acceleration() {
     return calcAcceleration(
-      calcForce(
-        this.thrust,
-        calcWeight(this.mass, this.distanceTraveled)
-      ),
+      calcForce(this.thrust, calcWeight(this.mass, this.distanceTraveled)),
       this.mass
     ).to('km/h*h')
-  },
+  }
 })
