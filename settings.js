@@ -1,5 +1,6 @@
 const Qty = require('js-quantities')
 const rls = require('readline-sync')
+const _ = require('lodash/fp')
 
 /* Returns a settings object that is used to configure the mission parameters
 for the next mission. Also contains defaults for those. */
@@ -28,12 +29,52 @@ const defaultSettings = {
   impulse: new Qty(250, 's'),
 }
 
-const promptForSettings = previousSettings => {
-  if (rls.keyInYN('Configure mission parameters?'))
-    console.log('Not available yet, come back later')
-  return previousSettings
+const parseInput = (input, origValue) => {
+  if (!Qty.parse(input)) {
+    console.log('Input invalid!')
+    return null
+  }
+  let value = new Qty(input)
+  if (!value.isCompatible(origValue)) {
+    if (value.units()) {
+      console.log('Units incompatible!')
+      return null
+    } else value = new Qty(value.scalar, origValue.units())
+  }
+  return value
 }
 
-module.exports = settings => {
+const promptForSettings = settings => {
+  if (!rls.keyInYN('Configure mission parameters?')) return settings
+  console.log(`
+Please enter new mission parameters.
+Leave input blank to reuse the value
+in parens. You can specify new units
+with your input, or omit them to use
+the units shown. New units should be
+compatible.
+`)
+  const updatePrompt = (message, key) => {
+    let origValue = new Qty(settings[key])
+    do {
+      let input = rls.question(`${message} (${origValue}) `, {
+        defaultInput: origValue,
+      })
+      settings[key] = parseInput(input, origValue)
+    } while (settings[key] === null)
+  }
+
+  updatePrompt('  Target dist. :', 'distance')
+  updatePrompt('       Payload :', 'payload')
+  updatePrompt(' Fuel capacity :', '_fuel')
+  updatePrompt('  Fuel density :', 'fuelDensity')
+  updatePrompt('     Burn rate :', 'burnRate')
+  updatePrompt('       Impulse :', 'impulse')
+
+  console.log('\nSettings updated!')
+  return settings
+}
+
+module.exports = (settings = defaultSettings) => {
   return settings ? promptForSettings(settings) : defaultSettings
 }

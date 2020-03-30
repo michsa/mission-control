@@ -1,6 +1,14 @@
 const { seed } = require('./config')
 const _ = require('lodash/fp')
 
+const welcomeBanner = () => {
+  console.log(`
+===============================
+  WELCOME TO MISSION CONTROL!             
+===============================
+`)
+}
+
 const missionPlan = settings => {
   console.log(`
 ===============================
@@ -73,4 +81,10 @@ const statusBanner = status => {
   console.log('*******************************\n')
 }
 
-module.exports = { missionPlan, missionStatus, programSummary, statusBanner }
+module.exports = {
+  welcomeBanner,
+  missionPlan,
+  missionStatus,
+  programSummary,
+  statusBanner,
+}

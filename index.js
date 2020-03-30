@@ -1,9 +1,7 @@
 const rls = require('readline-sync')
 const configureSettings = require('./settings')
 const runMission = require('./mission')
-const { programSummary } = require('./messages')
-
-console.log('Welcome to Mission Control!')
+const { programSummary, welcomeBanner } = require('./messages')
 
 const missions = []
 
@@ -16,6 +14,7 @@ let settings = undefined
 // function. (I could've used an IIFE here, but I find this syntax clearer)
 let main = async () => {
   try {
+    welcomeBanner()
     while (playAgain) {
       settings = configureSettings(settings)
       let missionResults = await runMission(settings)
