@@ -5,4 +5,6 @@ module.exports = {
 
    // seed for the RNG, randomized by default
    seed: Math.floor(Math.random() * 100000),
+
+   configureFirstTime: true,
 }

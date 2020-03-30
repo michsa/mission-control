@@ -1,6 +1,8 @@
 const Qty = require('js-quantities')
 const rls = require('readline-sync')
 const _ = require('lodash/fp')
+const { missionPlan } = require('./messages')
+const { configureFirstTime } = require('./config')
 
 /* Returns a settings object that is used to configure the mission parameters
 for the next mission. Also contains defaults for those. */
@@ -15,7 +17,7 @@ const defaultSettings = {
   payload: new Qty(50000, 'kg'),
   fuel: new Qty(151410, 'l'),
   fuelDensity: new Qty(0.9, 'g/ml'), // https://en.wikipedia.org/wiki/RP-1
-  burnRate: new Qty(16824, 'l/s'),
+  targetBurnRate: new Qty(16824, 'l/s'),
   // Specific impulse is a measure of the efficiency of a rocket and allows us
   // to calculate thrust from the burn rate (as mass flow rate) of our fuel.
   // https://en.wikipedia.org/wiki/Specific_impulse#Specific_impulse_in_seconds
@@ -38,14 +40,13 @@ const parseInput = (input, origValue) => {
 }
 
 const promptForSettings = settings => {
-  if (!rls.keyInYN('Configure mission parameters?')) return settings
   console.log(`
 Please enter new mission parameters.
 Leave input blank to reuse the value
 in parens. You can specify new units
 with your input, or omit them to use
 the units shown. New units should be
-compatible.
+compatible with current units.
 `)
   const updatePrompt = (message, key) => {
     let origValue = new Qty(settings[key])
@@ -61,13 +62,23 @@ compatible.
   updatePrompt('       Payload :', 'payload')
   updatePrompt(' Fuel capacity :', 'fuel')
   updatePrompt('  Fuel density :', 'fuelDensity')
-  updatePrompt('Fuel burn rate :', 'burnRate')
+  updatePrompt('Fuel burn rate :', 'targetBurnRate')
   updatePrompt('       Impulse :', 'impulse')
 
-  console.log('\nSettings updated!')
   return settings
 }
 
 module.exports = settings => {
-  return settings ? promptForSettings(settings) : defaultSettings
+  let newSettings = settings || defaultSettings
+  missionPlan(newSettings)
+  // the first time this runs, `settings` is undefined.
+  // on subsequent runs, it's populated with the last mission's settings.
+  let canConfigure = settings || configureFirstTime
+  if (canConfigure && rls.keyInYN('Configure mission parameters?')) {
+    do {
+      newSettings = promptForSettings(newSettings)
+      missionPlan(newSettings)
+    } while (!rls.keyInYN('Use these parameters? '))
+  }
+  return newSettings
 }

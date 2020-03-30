@@ -5,7 +5,7 @@ const { programSummary, welcomeBanner } = require('./messages')
 
 const missions = []
 let playAgain = true
-let settings = defaultSettings
+let settings
 
 // we can't await at the top level (yet!), so we wrap the code in an async
 // function. (I could've used an IIFE here, but I find this syntax clearer)
