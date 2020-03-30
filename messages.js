@@ -3,11 +3,12 @@ const _ = require('lodash/fp')
 
 const welcomeBanner = () => {
   console.log(`
-===============================
-  WELCOME TO MISSION CONTROL!             
-===============================
-`)
-}
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+|                             |
+* Welcome to Mission Control! *
+|                             |
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*`
+  )}
 
 const missionPlan = settings => {
   console.log(`
@@ -65,8 +66,7 @@ Total missions : ${_.size(missions)}
   # explosions : ${printStatusTotals('exploded')}
      # crashes : ${printStatusTotals('crashed')}
    Fuel burned : ${sumBy('fuelBurned').toPrec(0.1)}
-   Flight time : ${sumBy('timeElapsed').toPrec(0.1)}
-`)
+   Flight time : ${sumBy('timeElapsed').toPrec(0.1)}`)
 }
 
 // prettier-ignore
@@ -78,7 +78,7 @@ const statusBanner = status => {
      crashed: '    FAILURE: ROCKET CRASHED    ',
      aborted: '        MISSION ABORTED        ',
   }[status])
-  console.log('*******************************\n')
+  console.log('*******************************')
 }
 
 module.exports = {
