@@ -7,7 +7,7 @@ const {
   calcAcceleration,
 } = require('./formulas')
 
-let seed = 1
+let seed = Math.floor(Math.random() * 100000)
 let random = () => {
   let x = Math.sin(seed++) * 10000
   return x - Math.floor(x)
@@ -101,13 +101,17 @@ const calcAverageSpeed = () => {
 const startMission = () => {
   console.log(`
 Welcome to Mission Control!
-Mission plan:
-  Travel distance:  ${state.distance}
-  Payload capacity: ${state.payload}
-  Fuel capacity:    ${state.fuel}
-  Target burn rate: ${state.burnRate}
-  Target speed:     ${state.targetSpeed}
-  Random seed:      12
+===============================
+         MISSION PLAN             
+-------------------------------
+  Travel dist. : ${state.distance}
+       Payload : ${state.payload}
+ Fuel capacity : ${state.fuel}
+  Fuel density : ${state.fuelDensity}
+     Burn rate : ${state.burnRate}
+       Impulse : ${state.impulse}
+   Random seed : ${seed}
+-------------------------------
 `)
 }
 
@@ -159,7 +163,7 @@ const runMission = () => {
     state.timeElapsed = state.timeElapsed.add(interval)
     state.fuel = state.fuel.sub(state.burnRate.mul(interval))
 
-    missionStatus()
+    // missionStatus()
   }
   timer = setInterval(updateMission, updateInterval)
 }
