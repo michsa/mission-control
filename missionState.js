@@ -7,10 +7,9 @@ const {
 } = require('./formulas')
 
 module.exports = settings => ({
-
   ...settings,
   
-  // --- mission state ---
+  // --- mutated externally ---
 
   currentSpeed: new Qty(0, 'km/h'),
   averageSpeed: new Qty(0, 'km/h'),
@@ -26,7 +25,7 @@ module.exports = settings => ({
   },
   timeElapsed: new Qty(0, 's'),
 
-  // --- calculations ---
+  // --- computed ---
 
   get timeToDestination() {
     return this.averageSpeed.scalar

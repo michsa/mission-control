@@ -34,8 +34,7 @@ Fuel burn rate : ${state.burnRate}
 Fuel remaining : ${state.fuel.toPrec(0.1)}
     Total mass : ${state.mass.toPrec(0.1)}
         Thrust : ${state.thrust.to('N').toPrec(0.1)}
--------------------------------
-`)
+-------------------------------`)
 }
 
 const missionSummary = missions => {
@@ -61,13 +60,14 @@ Total missions : 123
 
 // prettier-ignore
 const statusBanner = status => {
-  console.log('*******************************')
+  console.log('\n*******************************')
   console.log({
-     success: '       MISSION SUCCESS!        ',
+   succeeded: '       MISSION SUCCESS!        ',
     exploded: '   FAILURE: ROCKET EXPLODED    ',
      crashed: '    FAILURE: ROCKET CRASHED    ',
+     aborted: '        MISSION ABORTED        ',
   }[status])
-  console.log('*******************************')
+  console.log('*******************************\n')
 }
 
 module.exports = {

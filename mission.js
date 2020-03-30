@@ -2,7 +2,7 @@ const { min } = require('lodash/fp')
 const Qty = require('js-quantities')
 const createMissionState = require('./missionState')
 const { seed, updateInterval } = require('./config.js')
-const { missionPlan, missionStatus } = require('./messages')
+const { missionPlan, missionStatus, statusBanner } = require('./messages')
 const rls = require('readline-sync')
 
 let random = () => {
@@ -71,7 +71,9 @@ module.exports = async settings => {
   let state = createMissionState(settings)
   missionPlan(state)
   // runStartSequence returns false if the mission aborted
-  return runStartSequence(state)
+  let mission = runStartSequence(state)
     ? await runMission(state)
     : { ...state, status: 'aborted' }
+  statusBanner(mission.status)
+  return mission
 }
