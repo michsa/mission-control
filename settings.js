@@ -10,7 +10,7 @@ const defaultSettings = {
   // likely an error - one liter of rocket fuel (or water) weighs roughly 1 kg,
   // so our total payload including fuel would exceed 1 million kilograms!
   // That actually sounds more realistic for a rocket, so I'm going to assume
-  // that the fuel is *NOT* included and that this value is the actual payload.
+  // that the fuel is *NOT* included and that this value is the empty payload.
   payload: new Qty(50000, 'kg'),
   _fuel: new Qty(151410, 'l'),
   get fuel() {

@@ -3,12 +3,12 @@ const {
   calcAcceleration,
   calcForce,
   calcThrust,
-  calcWeightAtAltitude,
+  calcWeight,
 } = require('./formulas')
 
 module.exports = settings => ({
   ...settings,
-  
+
   // --- mutated externally ---
 
   currentSpeed: new Qty(0, 'km/h'),
@@ -45,7 +45,7 @@ module.exports = settings => ({
     return calcAcceleration(
       calcForce(
         this.thrust,
-        calcWeightAtAltitude(this.mass, this.distanceTraveled)
+        calcWeight(this.mass, this.distanceTraveled)
       ),
       this.mass
     ).to('km/h*h')

@@ -11,6 +11,8 @@ let settings = undefined
 
 // settings file that exports prompts returning a settngs object and a default settings object
 
+// we can't await at the top level (yet!), so we wrap the code in an async
+// function. (I could've used an IIFE here, but I find this syntax clearer)
 let main = async () => {
   try {
     while (playAgain) {
@@ -20,7 +22,6 @@ let main = async () => {
       playAgain = rls.keyInYN('Would you like to run another mission?')
     }
   } catch (e) {
-    // Deal with the fact the chain failed
     console.error(e)
   }
 }

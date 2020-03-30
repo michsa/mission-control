@@ -10,8 +10,8 @@ let random = () => {
   return x - Math.floor(x)
 }
 
-// --- loop ---
-
+// runs through the sequence of prompts leading up to launching the rocket.
+// returns true if successful, false if aborted (determined by seeded rng)
 const runStartSequence = state => {
   state.missionName = rls.question('What is the name of this mission? ')
   if (!rls.keyInYN('Would you like to proceed?')) return
@@ -27,6 +27,7 @@ const runStartSequence = state => {
   return true
 }
 
+// executes for each interval of the mission update loop
 const updateMission = state => {
   let interval = new Qty(updateInterval, 'ms')
 
@@ -47,6 +48,7 @@ const updateMission = state => {
   state.fuel = state.fuel.sub(state.burnRate.mul(interval))
 }
 
+// starts and finishes the mission update loop
 const runMission = async state => {
   return await new Promise(resolve => {
     const interval = setInterval(() => {
