@@ -75,6 +75,6 @@ compatible.
   return settings
 }
 
-module.exports = (settings = defaultSettings) => {
+module.exports = settings => {
   return settings ? promptForSettings(settings) : defaultSettings
 }

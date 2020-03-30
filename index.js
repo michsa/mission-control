@@ -4,11 +4,8 @@ const runMission = require('./mission')
 const { programSummary, welcomeBanner } = require('./messages')
 
 const missions = []
-
 let playAgain = true
-let settings = undefined
-
-// settings file that exports prompts returning a settngs object and a default settings object
+let settings = defaultSettings
 
 // we can't await at the top level (yet!), so we wrap the code in an async
 // function. (I could've used an IIFE here, but I find this syntax clearer)
@@ -26,5 +23,4 @@ let main = async () => {
     console.error(e)
   }
 }
-
 main()
