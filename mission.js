@@ -2,7 +2,7 @@ const { min } = require('lodash/fp')
 const Qty = require('js-quantities')
 const createMissionState = require('./missionState')
 const { seed, updateInterval } = require('./config.js')
-const { printMissionPlan, printMissionStatus } = require('./messages')
+const { missionPlan, missionStatus } = require('./messages')
 const rls = require('readline-sync')
 
 let random = () => {
@@ -53,21 +53,23 @@ const runMission = async state => {
       if (state.distanceTraveled.gte(state.distance)) {
         resolve({ ...state, status: 'succeeded' })
         clearInterval(interval)
-      }
-      if (state.fuel.lte('0 l') && state.distanceTraveled.lte('0 km')) {
+      } else if (state.fuel.lte('0 l') && state.distanceTraveled.lte('0 km')) {
         resolve({ ...state, status: 'crashed' })
         clearInterval(interval)
+      } else if (state.status === 'exploded') {
+        resolve(state)
+        clearInterval(interval)
+      } else {
+        updateMission(state)
       }
-      // todo: exploded
-      updateMission(state)
-      printMissionStatus(state)
+      missionStatus(state)
     }, updateInterval)
   })
 }
 
 module.exports = async settings => {
   let state = createMissionState(settings)
-  printMissionPlan(state)
+  missionPlan(state)
   // runStartSequence returns false if the mission aborted
   return runStartSequence(state)
     ? await runMission(state)
