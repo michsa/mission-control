@@ -13,23 +13,17 @@ let random = () => {
 // --- loop ---
 
 const runStartSequence = state => {
-  // What is the name of this mission? Minerva II
-  // Would you like to proceed? (Y/n) Y
-  // Engage afterburner? (Y/n) Y
-  // Afterburner engaged!
-  // Release support structures? (Y/n) Y
-  // Support structures released!
-  // Perform cross-checks? (Y/n) Y
-  // Cross-checks performed!
-  // Launch? (Y/n) Y
-
   state.missionName = rls.question('What is the name of this mission? ')
-
   if (!rls.keyInYN('Would you like to proceed?')) return
   if (!rls.keyInYN('Engage afterburner?')) return
   console.log('Afterburner engaged!')
-  if (!rls.keyInYN('Engage afterburner?')) return
-
+  if (!rls.keyInYN('Release support structures?')) return
+  console.log('Support structures released!')
+  if (!rls.keyInYN('Perform cross-checks?')) return
+  console.log('Cross-checks performed!')
+  if (!rls.keyInYN('Launch?')) return
+  console.log('Launched!')
+  // TODO: abort sometimes
   return true
 }
 
@@ -54,7 +48,6 @@ const updateMission = state => {
 }
 
 const runMission = async state => {
-  console.log('run mission')
   return await new Promise(resolve => {
     const interval = setInterval(() => {
       if (state.distanceTraveled.gte(state.distance)) {
@@ -76,10 +69,7 @@ module.exports = async settings => {
   let state = createMissionState(settings)
   printMissionPlan(state)
   // runStartSequence returns false if the mission aborted
-  let result = runStartSequence(state)
+  return runStartSequence(state)
     ? await runMission(state)
     : { ...state, status: 'aborted' }
-
-  console.log('result', result)
-  return result
 }
