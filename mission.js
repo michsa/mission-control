@@ -33,9 +33,7 @@ const runStartSequence = state => {
   return true
 }
 
-const updateMission = (state, timer) => updateInterval => {
-  if (timer && state.distanceTraveled.gte(state.distance)) clearInterval(timer)
-
+const updateMission = state => {
   let interval = new Qty(updateInterval, 'ms')
 
   // stop burning when we run out of fuel (100% accurate true physics)
@@ -53,24 +51,35 @@ const updateMission = (state, timer) => updateInterval => {
 
   state.timeElapsed = state.timeElapsed.add(interval)
   state.fuel = state.fuel.sub(state.burnRate.mul(interval))
-
-  printMissionStatus(state)
 }
 
-const runMission = state => {
-  let timer = null
-  timer = setInterval(updateMission(state, timer), updateInterval)
-  return { ...state, status: 'succeeded' }
+const runMission = async state => {
+  console.log('run mission')
+  return await new Promise(resolve => {
+    const interval = setInterval(() => {
+      if (state.distanceTraveled.gte(state.distance)) {
+        resolve({ ...state, status: 'succeeded' })
+        clearInterval(interval)
+      }
+      if (state.fuel.lte('0 l') && state.distanceTraveled.lte('0 km')) {
+        resolve({ ...state, status: 'crashed' })
+        clearInterval(interval)
+      }
+      // todo: exploded
+      updateMission(state)
+      printMissionStatus(state)
+    }, updateInterval)
+  })
 }
 
-module.exports = settings => {
+module.exports = async settings => {
   let state = createMissionState(settings)
   printMissionPlan(state)
   // runStartSequence returns false if the mission aborted
   let result = runStartSequence(state)
-    ? runMission(state)
+    ? await runMission(state)
     : { ...state, status: 'aborted' }
 
-    console.log('result', result)
-    return result
+  console.log('result', result)
+  return result
 }
