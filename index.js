@@ -17,7 +17,7 @@ let main = async () => {
       settings = configureSettings(settings)
       let missionResults = await runMission(settings)
       missions.push(missionResults)
-      playAgain = rls.keyInYN('Play again?')
+      playAgain = rls.keyInYN('Would you like to run another mission?')
     }
   } catch (e) {
     // Deal with the fact the chain failed

@@ -1,7 +1,7 @@
 const { seed } = require('./config')
 const _ = require('lodash/fp')
 
-const printMissionPlan = settings => {
+const missionPlan = settings => {
   console.log(`
 ===============================
          MISSION PLAN             
@@ -17,7 +17,7 @@ const printMissionPlan = settings => {
 `)
 }
 
-const printMissionStatus = state => {
+const missionStatus = state => {
   console.log(`
 ===============================
         MISSION STATUS             
@@ -38,7 +38,7 @@ Fuel remaining : ${state.fuel.toPrec(0.1)}
 `)
 }
 
-const printMissionSummary = missions => {
+const missionSummary = missions => {
   const printStatusTotals = status => {
     let total = _.countBy({ status }, missions)
     let percentage = (total / _.size(missions)) * 100
@@ -56,8 +56,23 @@ Total missions : 123
      # crashes : ${printStatusTotals('crashed')}
    Fuel burned : ${_.sumBy('fuelBurned', missions)}
    Flight time : 0:06:25
-
-  `)
+`)
 }
 
-module.exports = { printMissionPlan, printMissionStatus }
+// prettier-ignore
+const statusBanner = status => {
+  console.log('*******************************')
+  console.log({
+     success: '       MISSION SUCCESS!        ',
+    exploded: '   FAILURE: ROCKET EXPLODED    ',
+     crashed: '    FAILURE: ROCKET CRASHED    ',
+  }[status])
+  console.log('*******************************')
+}
+
+module.exports = {
+  missionPlan,
+  missionStatus,
+  missionSummary,
+  statusBanner,
+}
