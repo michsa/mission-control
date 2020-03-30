@@ -1,5 +1,7 @@
+const { min } = require('lodash/fp')
 const Qty = require('js-quantities')
 const {
+  calcThrust,
   calcWeightAtAltitude,
   calcForce,
   calcAcceleration,
@@ -27,10 +29,9 @@ const state = {
   // That actually sounds more realistic for a rocket, so I'm going to assume
   // that the fuel is *NOT* included and that this value is the actual payload.
   payload: new Qty(50000, 'kg'),
-  fuel: new Qty(1514100, 'l'),
+  fuel: new Qty(151410, 'l'),
   fuelDensity: new Qty(0.9, 'g/ml'), // https://en.wikipedia.org/wiki/RP-1
-  burnRate: new Qty(168240, 'l/s'),
-  targetSpeed: new Qty(1500, 'km/h'),
+  burnRate: new Qty(16824, 'l/s'),
   // Specific impulse is a measure of the efficiency of a rocket and allows us
   // to calculate thrust from the burn rate (as mass flow rate) of our fuel.
   // https://en.wikipedia.org/wiki/Specific_impulse#Specific_impulse_in_seconds
@@ -38,7 +39,6 @@ const state = {
 
   // --- mission state ---
 
-  fuelConsumed: new Qty(0, 'l'),
   currentSpeed: new Qty(0, 'km/h'),
   averageSpeed: new Qty(0, 'km/h'),
   distanceTraveled: new Qty(0, 'km'),
@@ -52,12 +52,13 @@ const state = {
       : new Qty(0, 's')
   },
   get mass() {
-    return state.payload.add(
-      state.fuel.sub(state.fuelConsumed).mul(state.fuelDensity)
-    )
+    return state.payload.add(state.fuel.mul(state.fuelDensity))
+  },
+  get fuelMassFlowRate() {
+    return state.burnRate.mul(state.fuelDensity)
   },
   get thrust() {
-    return state.impulse.mul(state.burnRate.mul(state.fuelDensity).mul('1 gee'))
+    return calcThrust(state.impulse, state.fuelMassFlowRate)
   },
   get acceleration() {
     return calcAcceleration(
@@ -98,16 +99,17 @@ Mission plan:
 const missionStatus = () => {
   console.log(`
 Mission status:
-  Elapsed time:        ${state.timeElapsed.toPrec(1)}
+  Elapsed time:        ${state.timeElapsed.toPrec(0.1)}
   Fuel burn rate:      ${state.burnRate}
   Current speed:       ${state.currentSpeed.toPrec(0.1)}
   Average speed:       ${state.averageSpeed.toPrec(0.1)}
   Distance traveled:   ${state.distanceTraveled.toPrec(0.1)}
-  Time to destination: ${state.timeToDestination.to('s').toPrec(0.01)}
+  Time to destination: ${state.timeToDestination.to('s').toPrec(0.1)}
   ---
-  Mass: ${state.mass}
-  Thrust: ${state.thrust}
-  Accel: ${state.acceleration.toPrec(0.1)}
+  Fuel remaining: ${state.fuel.toPrec(0.1)}
+  Mass:           ${state.mass.toPrec(0.1)}
+  Thrust:         ${state.thrust.toPrec(0.1)}
+  Acceleration:   ${state.acceleration.toPrec(0.1)}
 `)
 }
 
@@ -115,23 +117,28 @@ Mission status:
 
 const runMission = () => {
   startMission()
+
   let timer = null
+
   let updateMission = () => {
     if (timer && state.distanceTraveled.gte(state.distance))
       clearInterval(timer)
 
     let interval = new Qty(updateInterval, 'ms')
 
-    if (state.fuelConsumed.gte(state.fuel)) state.burnRate.scalar = 0
+    // stop burning when we run out of fuel (100% accurate true physics)
+    if (state.fuel.scalar <= 0) state.burnRate.scalar = 0
 
-    state.currentSpeed = state.currentSpeed.add(state.acceleration.mul(interval))
+    state.currentSpeed = state.currentSpeed.add(
+      state.acceleration.mul(interval)
+    )
     state.averageSpeed = calcAverageSpeed()
     state.distanceTraveled = state.distanceTraveled.add(
       state.currentSpeed.mul(interval)
     )
 
     state.timeElapsed = state.timeElapsed.add(interval)
-    state.fuelConsumed = state.fuelConsumed.add(state.burnRate.mul(interval))
+    state.fuel = state.fuel.sub(state.burnRate.mul(interval))
 
     missionStatus()
   }

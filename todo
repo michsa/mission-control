@@ -1,0 +1,9 @@
+todo
+----
+- fix overcorrect (can we set intervals to 1ms?)
+- add approach function to ramp up fuelBurn with random variations
+- add random explosions/aborts
+- add prompts
+- add configuration
+- run totals
+- readline cursor manipulation to make the mission update recycle lines
