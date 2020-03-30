@@ -13,14 +13,7 @@ const defaultSettings = {
   // That actually sounds more realistic for a rocket, so I'm going to assume
   // that the fuel is *NOT* included and that this value is the empty payload.
   payload: new Qty(50000, 'kg'),
-  _fuel: new Qty(151410, 'l'),
-  get fuel() {
-    return this._fuel
-  },
-  set fuel(x) {
-    if (x.scalar < 0) x.scalar = 0
-    this._fuel = x
-  },
+  fuel: new Qty(151410, 'l'),
   fuelDensity: new Qty(0.9, 'g/ml'), // https://en.wikipedia.org/wiki/RP-1
   burnRate: new Qty(16824, 'l/s'),
   // Specific impulse is a measure of the efficiency of a rocket and allows us
@@ -66,9 +59,9 @@ compatible.
 
   updatePrompt('  Target dist. :', 'distance')
   updatePrompt('       Payload :', 'payload')
-  updatePrompt(' Fuel capacity :', '_fuel')
+  updatePrompt(' Fuel capacity :', 'fuel')
   updatePrompt('  Fuel density :', 'fuelDensity')
-  updatePrompt('     Burn rate :', 'burnRate')
+  updatePrompt('Fuel burn rate :', 'burnRate')
   updatePrompt('       Impulse :', 'impulse')
 
   console.log('\nSettings updated!')

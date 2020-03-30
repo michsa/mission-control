@@ -24,6 +24,15 @@ module.exports = settings => ({
     this._distanceTraveled = x
   },
   timeElapsed: new Qty(0, 's'),
+  _fuelBurned: new Qty(settings.fuel),
+  get fuelBurned() {
+    return this._fuelBurned
+  },
+  set fuelBurned(x) {
+    if (x.gt(this.fuel)) x = this.fuel
+    this._fuelBurned = x
+  },
+  
 
   // --- computed ---
 

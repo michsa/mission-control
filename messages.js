@@ -64,7 +64,7 @@ Total missions : ${_.size(missions)}
       # aborts : ${printStatusTotals('aborted')}
   # explosions : ${printStatusTotals('exploded')}
      # crashes : ${printStatusTotals('crashed')}
-   Fuel burned : ${sumBy('fuel').toPrec(0.1)}
+   Fuel burned : ${sumBy('fuelBurned').toPrec(0.1)}
    Flight time : ${sumBy('timeElapsed').toPrec(0.1)}
 `)
 }
