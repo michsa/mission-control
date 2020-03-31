@@ -8,6 +8,8 @@ const { missionStatus, statusBanner } = require('./messages')
 const createMissionState = require('./missionState')
 const seededRandom = require('./random')
 
+const countdown = 3000 // ms
+
 // runs through the sequence of prompts leading up to launching the rocket.
 // returns true if successful, false if aborted (determined by seeded rng)
 const runStartSequence = state => {
@@ -22,16 +24,19 @@ const runStartSequence = state => {
   return rls.keyInYN('Launch?')
 }
 
-const runLaunchSequence = async aborts =>
+// prints a countdown that stops at a random time if we roll to abort
+const runLaunchSequence = async abortAt =>
   new Promise(resolve => {
     process.stdout.write('Launching in ')
-    let time = 3000
+    let time = countdown
     let interval = setInterval(() => {
       process.stdout.write(time % 1000 ? '.' : (time / 1000).toFixed(0))
-      time -=  200
-      if (time <= 0) {
-        resolve()
+      let shouldAbort = abortAt && (time / countdown < abortAt / 2)
+      time -= 200
+      if (time <= 0 || shouldAbort) {
+        process.stdout.end('')
         clearInterval(interval)
+        resolve()
       }
     }, 200)
   })
@@ -58,17 +63,8 @@ const updateMission = state => {
 }
 
 // starts and finishes the mission update loop
-const runMission = async state => {
-  const random = seededRandom(state.seed)
-  let aborts = random() < 1 / 3
-  await runLaunchSequence(aborts)
-  let explodes = random() < 1 / 5
-  let explodesAt = random()
-  return await new Promise(resolve => {
-    if (aborts) {
-      resolve({ ...state, status: 'aborted' })
-      return
-    }
+const runMission = async (state, explodeAt) =>
+  new Promise(resolve => {
     const interval = setInterval(() => {
       if (state.distanceTraveled.gte(state.distance)) {
         resolve({ ...state, status: 'succeeded' })
@@ -76,24 +72,29 @@ const runMission = async state => {
       } else if (state.fuel.lte('0 l') && state.distanceTraveled.lte('0 km')) {
         resolve({ ...state, status: 'crashed' })
         clearInterval(interval)
-      } else if (explodes && state.percentFuelRemaining < explodesAt) {
+      } else if (explodeAt && state.percentFuelRemaining < explodeAt) {
         resolve({ ...state, status: 'exploded' })
         clearInterval(interval)
       } else {
         updateMission(state)
       }
-      missionStatus(state)
-      // console.debug('explodes:', explodes, explodesAt.toFixed(2))
+      //missionStatus(state)
     }, updateInterval)
   })
-}
 
 module.exports = async settings => {
   let state = createMissionState(settings)
-  // runStartSequence returns false if the mission aborted
-  let mission = runStartSequence(state)
-    ? await runMission(state)
-    : { ...state, status: 'aborted' }
-  statusBanner(mission.status)
+  // runStartSequence returns false if the user discontinues
+  if (!runStartSequence(state)) return { ...state, status: 'aborted' }
+
+  const random = seededRandom(state.seed)
+  let abortAt = random() < 1 / 1 && random()
+  console.log('abort at:', abortAt)
+  console.log('launch:', await runLaunchSequence(abortAt))
+  if (abortAt) return { ...state, status: 'aborted' }
+
+  let explodeAt = random() < 1 / 5 && random()
+  await runMission(state, explodeAt)
+
   return mission
 }

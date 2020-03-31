@@ -1,7 +1,7 @@
 const rls = require('readline-sync')
 const configureSettings = require('./settings')
 const runMission = require('./mission')
-const { programSummary, welcomeBanner } = require('./messages')
+const { programSummary, welcomeBanner, statusBanner } = require('./messages')
 
 const missions = []
 let playAgain = true
@@ -15,6 +15,7 @@ let main = async () => {
     while (playAgain) {
       settings = configureSettings(settings)
       let missionResults = await runMission(settings)
+      statusBanner(missionResults.status)
       missions.push(missionResults)
       programSummary(missions)
       playAgain = rls.keyInYN('\nWould you like to run another mission?')
