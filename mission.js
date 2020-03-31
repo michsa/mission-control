@@ -2,9 +2,8 @@ const Qty = require('js-quantities')
 const { min } = require('lodash/fp')
 const process = require('process')
 const random = require('random')
-const seedrandom = require('seedrandom')
 const rls = require('readline-sync')
-
+const seedrandom = require('seedrandom')
 const {
   countdownLength,
   debug,
@@ -14,6 +13,7 @@ const {
 } = require('./config')
 const { missionStatus, statusBanner } = require('./messages')
 const createMissionState = require('./missionState')
+const { rollRandomEvent } = require('./utils')
 
 // runs through the sequence of prompts leading up to launching the rocket.
 // returns true if successful, false if aborted (determined by seeded rng)
@@ -97,13 +97,6 @@ const runMission = async (state, explodeAt) =>
       replace = missionStatus(state)
     }, updateInterval)
   })
-
-// rolls two random numbers: the first to determine whether the event happens
-// according to the given odds, and the second to determine when it happens
-// (eg, at what point during the launch counter we should abort). if the result
-// is falsy it means no event; otherwise it's a float between 0 and 1.
-const rollRandomEvent = odds =>
-  !disableRngEvents && random.float() < odds && random.float()
 
 module.exports = async settings => {
   let state = createMissionState(settings)
