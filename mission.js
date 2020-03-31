@@ -48,7 +48,7 @@ const runLaunchSequence = async abortAt =>
       if (time <= 0 || shouldAbort) {
         clearInterval(interval)
         // only say launch if this is definitely not an aborted mission
-        if (time <= 0 && !abortAt) console.log('LAUNCH!')
+        console.log(time > 0 || abortAt ? '' : 'LAUNCH!')
         resolve()
       }
     }, 200)
