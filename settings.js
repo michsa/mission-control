@@ -25,7 +25,7 @@ const defaultSettings = {
   impulse: new Qty(250, 's')
 }
 
-const parseInput = (input, origValue) => {
+const parseQty = (input, origValue) => {
   if (!Qty.parse(input)) {
     console.log('Input invalid!')
     return null
@@ -49,14 +49,14 @@ with your input, or omit them to use
 the units shown. New units should be
 compatible with current units.
 `)
-  const updatePrompt = (message, key) => {
+  const updatePrompt = (message, key, format = parseQty) => {
     let origValue = new Qty(settings[key])
     do {
       let input = rls.question(`${message} (${origValue}) `, {
         defaultInput: origValue
       })
-      settings[key] = parseInput(input, origValue)
-    } while (settings[key] === null)
+      settings[key] = format(input, origValue)
+    } while (!settings[key])
   }
 
   updatePrompt('  Target dist. :', 'distance')
@@ -65,12 +65,14 @@ compatible with current units.
   updatePrompt('  Fuel density :', 'fuelDensity')
   updatePrompt('Fuel burn rate :', 'targetBurnRate')
   updatePrompt('       Impulse :', 'impulse')
+  updatePrompt('   Random seed :', 'seed', x => parseInt(x))
 
   return settings
 }
 
 module.exports = settings => {
   let newSettings = settings || defaultSettings
+  newSettings.seed = Math.floor(Math.random() * 100000)
   missionPlan(newSettings)
   // the first time this runs, `settings` is undefined.
   // on subsequent runs, it's populated with the last mission's settings.

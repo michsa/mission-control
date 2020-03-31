@@ -21,7 +21,7 @@ const missionPlan = settings => {
   Fuel density : ${settings.fuelDensity}
      Burn rate : ${settings.burnRate}
        Impulse : ${settings.impulse}
-   Random seed : ${seed}
+   Random seed : ${settings.seed}
 -------------------------------
 `)
 }
@@ -43,6 +43,7 @@ Fuel burn rate : ${state.burnRate}
 Fuel remaining : ${state.fuel.toPrec(0.1)}
     Total mass : ${state.mass.toPrec(0.1)}
         Thrust : ${state.thrust.to('N').toPrec(0.1)}
+   Random seed : ${state.seed}
 -------------------------------`)
 }
 
