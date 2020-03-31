@@ -40,7 +40,6 @@ Time to arrval : ${state.timeToDestination.to('s').toPrec(0.1)}
   Acceleration : ${state.acceleration.to('m/s*s').toPrec(0.01)}
 -------------------------------
 Fuel burn rate : ${state.burnRate}
-Fuel remaining : ${state.fuel.toPrec(0.1)}
    Fuel burned : ${state.fuelBurned.toPrec(0.1)}
 Fuel remaining : ${state.fuelRemaining.toPrec(0.1)}
     Total mass : ${state.mass.toPrec(0.1)}
