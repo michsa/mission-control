@@ -1,14 +1,11 @@
-const { min } = require('lodash/fp')
 const Qty = require('js-quantities')
-const createMissionState = require('./missionState')
-const { seed, updateInterval } = require('./config.js')
-const { missionStatus, statusBanner } = require('./messages')
+const { min } = require('lodash/fp')
 const rls = require('readline-sync')
 
-let random = () => {
-  let x = Math.sin(seed++) * 10000
-  return x - Math.floor(x)
-}
+const { updateInterval } = require('./config')
+const { missionStatus, statusBanner } = require('./messages')
+const createMissionState = require('./missionState')
+const seededRandom = require('./random')
 
 // runs through the sequence of prompts leading up to launching the rocket.
 // returns true if successful, false if aborted (determined by seeded rng)
@@ -50,6 +47,10 @@ const updateMission = state => {
 
 // starts and finishes the mission update loop
 const runMission = async state => {
+  const random = seededRandom(state.seed)
+  let aborts = random() < 0.3
+  let explodes = random() < 0.9 // adjust as necessary
+  let explodesAt = random()
   return await new Promise(resolve => {
     const interval = setInterval(() => {
       if (state.distanceTraveled.gte(state.distance)) {
@@ -58,13 +59,15 @@ const runMission = async state => {
       } else if (state.fuel.lte('0 l') && state.distanceTraveled.lte('0 km')) {
         resolve({ ...state, status: 'crashed' })
         clearInterval(interval)
-      } else if (state.status === 'exploded') {
-        resolve(state)
+      } else if (explodes && state.timeElapsed.gt(new Qty(5, 's'))) {
+        resolve({ ...state, status: 'exploded' })
         clearInterval(interval)
       } else {
         updateMission(state)
       }
       missionStatus(state)
+      console.log('explodes:', explodes, explodesAt)
+      console.log('fuel remaining:', state.percentFuelRemaining)
     }, updateInterval)
   })
 }
