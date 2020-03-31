@@ -1,12 +1,12 @@
 const Qty = require('js-quantities')
 const { min } = require('lodash/fp')
 const process = require('process')
+const random = require('random')
 const rls = require('readline-sync')
 
 const { updateInterval } = require('./config')
 const { missionStatus, statusBanner } = require('./messages')
 const createMissionState = require('./missionState')
-const seededRandom = require('./random')
 
 const countdownLength = 3000 // ms
 
@@ -99,12 +99,12 @@ module.exports = async settings => {
   // runStartSequence returns false if the user discontinues
   if (!runStartSequence(state)) return { ...state, status: 'aborted' }
 
-  const random = seededRandom(state.seed)
-  let abortAt = random() < 1 / 3 && random()
+  random.use(state.seed)
+  let abortAt = random.float() < 1 / 3 && random.float()
   // console.debug('abort:', abortAt)
   console.log(await runLaunchSequence(abortAt))
   if (abortAt) return { ...state, status: 'aborted' }
 
-  let explodeAt = random() < 1 / 5 && random()
+  let explodeAt = random.float() < 1 / 5 && random.float()
   return await runMission(state, explodeAt)
 }
