@@ -19,7 +19,7 @@ const missionPlan = settings => {
        Payload : ${settings.payload}
  Fuel capacity : ${settings.fuel}
   Fuel density : ${settings.fuelDensity}
-     Burn rate : ${settings.burnRate}
+     Burn rate : ${settings.targetBurnRate}
        Impulse : ${settings.impulse}
    Random seed : ${settings.seed}
 -------------------------------
