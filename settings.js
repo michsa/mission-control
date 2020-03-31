@@ -17,7 +17,7 @@ const defaultSettings = {
   // that the fuel is *NOT* included and that this value is the empty payload.
   payload: new Qty(50000, 'kg'),
   fuel: new Qty(151410, 'l'),
-  fuelDensity: new Qty(0.9, 'g/ml'), // https://en.wikipedia.org/wiki/RP-1
+  fuelDensity: new Qty(0.92, 'g/ml'), // https://en.wikipedia.org/wiki/RP-1
   targetBurnRate: new Qty(16824, 'l/s'),
   // Specific impulse is a measure of the efficiency of a rocket and allows us
   // to calculate thrust from the burn rate (as mass flow rate) of our fuel.

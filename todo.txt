@@ -1,10 +1,14 @@
 todo
 ----
-X fix overcorrect
-- add approach function to ramp up fuelBurn with random variations
-X add random explosions/aborts
-X add prompts
-X add configuration
-X run totals
-- readline cursor manipulation to make the mission update recycle lines
-- add a function to messages to generate those 32char dividers
+[x] fix overcorrect
+[x] add approach function to ramp up fuelBurn 
+  [] with random variations
+[x] add random explosions/aborts
+[x] add prompts
+[x] add configuration
+[x] run totals
+[x] readline cursor manipulation to make the mission update recycle lines
+  [] don't clear every time
+[x] add a function to messages to generate those 32char dividers
+[] replace the readline[]sync boolean prompts with one that has defaults
+[] update readme
