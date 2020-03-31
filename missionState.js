@@ -6,6 +6,11 @@ const {
   calcWeight
 } = require('./formulas')
 
+// Returns an object that contains all the mutable and computed properties for
+// our mission, along with all the mission settings. This state object is
+// returned from every mission regardless of how it ended and is saved in order
+// to generate program totals.
+
 module.exports = settings => ({
   // NOTE: The values in `settings` are references to Qty objects, so mutating
   // them here will mutate the settings themselves. Now that we carry settings

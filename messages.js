@@ -1,5 +1,5 @@
-const { seed } = require('./config')
 const _ = require('lodash/fp')
+const random = require('random')
 
 const welcomeBanner = () => {
   console.log(`
@@ -33,7 +33,7 @@ const missionStatus = state => {
         MISSION STATUS             
 -------------------------------
   Elapsed time : ${state.timeElapsed.toPrec(0.1)}
-Dist. traveled : ${state.distanceTraveled.toPrec(0.01)}
+      Altitude : ${state.distanceTraveled.toPrec(0.01)}
 Time to arrval : ${state.timeToDestination.to('s').toPrec(0.1)}
 -------------------------------
  Current speed : ${state.currentSpeed.toPrec(0.1)}
@@ -45,6 +45,10 @@ Fuel remaining : (${fuelPercent}%) ${state.fuelRemaining.toPrec(1)}
     Total mass : ${state.mass.toPrec(0.1)}
         Thrust : ${state.thrust.to('N').toPrec(0.1)}
 -------------------------------`)
+  return () => {
+    rl.moveCursor(process.stdout, 0, -17)
+    if (random) rl.clearScreenDown(process.stdout)
+  }
 }
 
 const programSummary = missions => {

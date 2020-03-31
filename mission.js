@@ -82,6 +82,7 @@ const updateMission = state => {
 // starts and finishes the mission update loop
 const runMission = async (state, explodeAt) =>
   new Promise(resolve => {
+    let replace = () => {}
     const interval = setInterval(() => {
       if (state.distanceTraveled.gte(state.distance)) {
         resolve({ ...state, status: 'succeeded' })
@@ -92,10 +93,9 @@ const runMission = async (state, explodeAt) =>
       } else if (explodeAt && state.percentFuelRemaining < explodeAt) {
         resolve({ ...state, status: 'exploded' })
         clearInterval(interval)
-      } else {
-        updateMission(state)
-      }
-      missionStatus(state)
+      } else updateMission(state)
+      replace()
+      replace = missionStatus(state)
       debug && console.debug('explode:', explodeAt)
     }, updateInterval)
   })
