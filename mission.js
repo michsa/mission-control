@@ -45,7 +45,7 @@ const updateMission = state => {
   )
 
   state.timeElapsed = state.timeElapsed.add(interval)
-  state.fuel = state.fuel.sub(state.burnRate.mul(interval))
+  state.fuelBurned = state.fuelBurned.add(state.burnRate.mul(interval))
 }
 
 // starts and finishes the mission update loop
