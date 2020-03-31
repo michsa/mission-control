@@ -48,10 +48,14 @@ const updateMission = state => {
 // starts and finishes the mission update loop
 const runMission = async state => {
   const random = seededRandom(state.seed)
-  let aborts = random() < 0.3
-  let explodes = random() < 0.9 // adjust as necessary
+  let aborts = random() < 1/3
+  let explodes = random() < 1/5
   let explodesAt = random()
   return await new Promise(resolve => {
+    if (aborts) {
+      resolve({ ...state, status: 'aborted' })
+      return
+    }
     const interval = setInterval(() => {
       if (state.distanceTraveled.gte(state.distance)) {
         resolve({ ...state, status: 'succeeded' })
@@ -59,15 +63,14 @@ const runMission = async state => {
       } else if (state.fuel.lte('0 l') && state.distanceTraveled.lte('0 km')) {
         resolve({ ...state, status: 'crashed' })
         clearInterval(interval)
-      } else if (explodes && state.timeElapsed.gt(new Qty(5, 's'))) {
+      } else if (explodes && state.percentFuelRemaining < explodesAt) {
         resolve({ ...state, status: 'exploded' })
         clearInterval(interval)
       } else {
         updateMission(state)
       }
       missionStatus(state)
-      console.log('explodes:', explodes, explodesAt)
-      console.log('fuel remaining:', state.percentFuelRemaining)
+      // console.debug('explodes:', explodes, explodesAt.toFixed(2))
     }, updateInterval)
   })
 }

@@ -7,3 +7,4 @@ X add prompts
 X add configuration
 X run totals
 - readline cursor manipulation to make the mission update recycle lines
+- add a function to messages to generate those 32char dividers
