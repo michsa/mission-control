@@ -83,14 +83,14 @@ const runMission = async (state, explodeAt) =>
   new Promise(resolve => {
     let replace = () => {}
     const interval = setInterval(() => {
-      if (state.distanceTraveled.gte(state.distance)) {
-        resolve({ ...state, status: 'succeeded' })
-        clearInterval(interval)
-      } else if (state.fuel.lte('0 l') && state.distanceTraveled.lte('0 km')) {
+      if (state.currentSpeed.lt('0 m/s') && state.distanceTraveled.lt('0 km')) {
         resolve({ ...state, status: 'crashed' })
         clearInterval(interval)
       } else if (explodeAt && state.percentFuelRemaining < explodeAt) {
         resolve({ ...state, status: 'exploded' })
+        clearInterval(interval)
+      } else if (state.distanceTraveled.gte(state.distance)) {
+        resolve({ ...state, status: 'succeeded' })
         clearInterval(interval)
       } else updateMission(state)
       replace()
