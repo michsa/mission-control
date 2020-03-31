@@ -1,6 +1,6 @@
 module.exports = {
   // print extra messages (eg. abort/explode rolls)
-  debug: false,
+  debug: true,
   
   // time interval for the update loop, in ms.
   // stays a scalar because we use this directly in setInterval.
@@ -18,5 +18,10 @@ module.exports = {
   disableStartSequence: true,
 
   // prevent random explosions and aborts when true.
-  disableRngEvents: true
+  disableRngEvents: true,
+
+  // hides the fuel section of the mission summary when fuel remaining is 0
+  // (because at that point none of the values change).
+  // mostly meant for testing the cursor reset callback stuff.
+  hideFuelStats: true,
 }

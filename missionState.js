@@ -51,6 +51,9 @@ module.exports = settings => ({
   get percentFuelRemaining() {
     return this.fuelRemaining.div(this.fuel).scalar
   },
+  get percentDistanceTraveled() {
+    return this.distanceTraveled.div(this.distance).scalar
+  },
   get timeToDestination() {
     return this.averageSpeed.scalar
       ? this.distance.sub(this.distanceTraveled).div(this.averageSpeed)

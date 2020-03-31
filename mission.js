@@ -32,7 +32,6 @@ const runStartSequence = state => {
 // prints a countdown that stops at a random time if we roll to abort
 const runLaunchSequence = async abortAt =>
   new Promise(resolve => {
-    debug && console.debug('abort:', abortAt)
     process.stdout.write('Launching in ')
     let time = countdownLength
     let second
@@ -96,7 +95,6 @@ const runMission = async (state, explodeAt) =>
       } else updateMission(state)
       replace()
       replace = missionStatus(state)
-      debug && console.debug('explode:', explodeAt)
     }, updateInterval)
   })
 
@@ -109,15 +107,17 @@ const rollRandomEvent = odds =>
 
 module.exports = async settings => {
   let state = createMissionState(settings)
-  // if disableStartSequence is true, this will short-circuit
-  // runStartSequence returns false if the user discontinues
+  // if disableStartSequence is true, this will short-circuit.
+  // runStartSequence returns false if the user discontinues.
   if (!disableStartSequence && !runStartSequence(state))
     return { ...state, status: 'aborted' }
-
+  // execute the rest of the mission flow and roll the random event for each
   random.use(seedrandom(state.seed))
   let abortAt = rollRandomEvent(1 / 3)
+  debug && console.debug('abort:', abortAt)
   await runLaunchSequence(abortAt)
   if (abortAt) return { ...state, status: 'aborted' }
   let explodeAt = rollRandomEvent(1 / 5)
+  debug && console.debug('explode:', explodeAt)
   return await runMission(state, explodeAt)
 }
