@@ -1,5 +1,6 @@
 const Qty = require('js-quantities')
 const { min } = require('lodash/fp')
+const process = require('process')
 const rls = require('readline-sync')
 
 const { updateInterval } = require('./config')
@@ -18,11 +19,22 @@ const runStartSequence = state => {
   console.log('Support structures released!')
   if (!rls.keyInYN('Perform cross-checks?')) return
   console.log('Cross-checks performed!')
-  if (!rls.keyInYN('Launch?')) return
-  console.log('Launched!')
-  // TODO: abort sometimes
-  return true
+  return rls.keyInYN('Launch?')
 }
+
+const runLaunchSequence = async aborts =>
+  new Promise(resolve => {
+    process.stdout.write('Launching in ')
+    let time = 3000
+    let interval = setInterval(() => {
+      process.stdout.write(time % 1000 ? '.' : (time / 1000).toFixed(0))
+      time -=  200
+      if (time <= 0) {
+        resolve()
+        clearInterval(interval)
+      }
+    }, 200)
+  })
 
 // executes for each interval of the mission update loop
 const updateMission = state => {
@@ -48,8 +60,9 @@ const updateMission = state => {
 // starts and finishes the mission update loop
 const runMission = async state => {
   const random = seededRandom(state.seed)
-  let aborts = random() < 1/3
-  let explodes = random() < 1/5
+  let aborts = random() < 1 / 3
+  await runLaunchSequence(aborts)
+  let explodes = random() < 1 / 5
   let explodesAt = random()
   return await new Promise(resolve => {
     if (aborts) {
