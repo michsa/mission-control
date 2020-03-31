@@ -2,7 +2,7 @@ const Qty = require('js-quantities')
 const rls = require('readline-sync')
 const _ = require('lodash/fp')
 const { missionPlan } = require('./messages')
-const { configureFirstTime } = require('./config')
+const { configureFirstMission } = require('./config')
 
 // Exports a function that optionally takes a settings object (see defaultSettings)
 // with the settings from the last-run mission, and returns a new settings object.
@@ -76,7 +76,7 @@ module.exports = settings => {
   missionPlan(newSettings)
   // the first time this runs, `settings` is undefined.
   // on subsequent runs, it's populated with the last mission's settings.
-  let canConfigure = settings || configureFirstTime
+  let canConfigure = settings || configureFirstMission
   if (canConfigure && rls.keyInYN('Configure mission parameters?')) {
     do {
       newSettings = promptForSettings(newSettings)

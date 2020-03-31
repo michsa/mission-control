@@ -2,13 +2,18 @@ const Qty = require('js-quantities')
 const { min } = require('lodash/fp')
 const process = require('process')
 const random = require('random')
+const seedrandom = require('seedrandom')
 const rls = require('readline-sync')
 
-const { updateInterval } = require('./config')
+const {
+  countdownLength,
+  debug,
+  disableRngEvents,
+  disableStartSequence,
+  updateInterval
+} = require('./config')
 const { missionStatus, statusBanner } = require('./messages')
 const createMissionState = require('./missionState')
-
-const countdownLength = 3000 // ms
 
 // runs through the sequence of prompts leading up to launching the rocket.
 // returns true if successful, false if aborted (determined by seeded rng)
@@ -27,11 +32,12 @@ const runStartSequence = state => {
 // prints a countdown that stops at a random time if we roll to abort
 const runLaunchSequence = async abortAt =>
   new Promise(resolve => {
+    debug && console.debug('abort:', abortAt)
     process.stdout.write('Launching in ')
     let time = countdownLength
     let second
     let interval = setInterval(() => {
-      // print the second when it changes, and a period every other loop
+      // print the second when it changes and a period otherwise
       let currentSecond = Math.ceil(time / 1000)
       if (second !== currentSecond) {
         second = currentSecond
@@ -43,7 +49,8 @@ const runLaunchSequence = async abortAt =>
       if (time <= 0 || shouldAbort) {
         clearInterval(interval)
         // only say launch if this is definitely not an aborted mission
-        resolve(time > 0 || abortAt ? '' : 'LAUNCH!')
+        if (time <= 0 && !abortAt) console.log('LAUNCH!')
+        resolve()
       }
     }, 200)
   })
@@ -51,7 +58,6 @@ const runLaunchSequence = async abortAt =>
 // executes for each interval of the mission update loop
 const updateMission = state => {
   let interval = new Qty(updateInterval, 'ms')
-
   // stop burning when we run out of fuel (100% accurate true physics)
   if (state.fuelRemaining.scalar <= 0) state.burnRate.scalar = 0
   else
@@ -90,21 +96,28 @@ const runMission = async (state, explodeAt) =>
         updateMission(state)
       }
       missionStatus(state)
-      // console.debug('explode:', explodeAt)
+      debug && console.debug('explode:', explodeAt)
     }, updateInterval)
   })
 
+// rolls two random numbers: the first to determine whether the event happens
+// according to the given odds, and the second to determine when it happens
+// (eg, at what point during the launch counter we should abort). if the result
+// is falsy it means no event; otherwise it's a float between 0 and 1.
+const rollRandomEvent = odds =>
+  !disableRngEvents && random.float() < odds && random.float()
+
 module.exports = async settings => {
   let state = createMissionState(settings)
+  // if disableStartSequence is true, this will short-circuit
   // runStartSequence returns false if the user discontinues
-  if (!runStartSequence(state)) return { ...state, status: 'aborted' }
+  if (!disableStartSequence && !runStartSequence(state))
+    return { ...state, status: 'aborted' }
 
-  random.use(state.seed)
-  let abortAt = random.float() < 1 / 3 && random.float()
-  // console.debug('abort:', abortAt)
-  console.log(await runLaunchSequence(abortAt))
+  random.use(seedrandom(state.seed))
+  let abortAt = rollRandomEvent(1 / 3)
+  await runLaunchSequence(abortAt)
   if (abortAt) return { ...state, status: 'aborted' }
-
-  let explodeAt = random.float() < 1 / 5 && random.float()
+  let explodeAt = rollRandomEvent(1 / 5)
   return await runMission(state, explodeAt)
 }
