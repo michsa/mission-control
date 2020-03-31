@@ -31,12 +31,11 @@ const runLaunchSequence = async abortAt =>
     let time = countdown
     let interval = setInterval(() => {
       process.stdout.write(time % 1000 ? '.' : (time / 1000).toFixed(0))
-      let shouldAbort = abortAt && (time / countdown < abortAt / 2)
+      let shouldAbort = abortAt && time / countdown < abortAt
       time -= 200
       if (time <= 0 || shouldAbort) {
-        process.stdout.end('')
         clearInterval(interval)
-        resolve()
+        resolve(time <= 0 ? 'LAUNCH!' : '')
       }
     }, 200)
   })
@@ -78,7 +77,8 @@ const runMission = async (state, explodeAt) =>
       } else {
         updateMission(state)
       }
-      //missionStatus(state)
+      missionStatus(state)
+      // console.debug('explode:', explodeAt)
     }, updateInterval)
   })
 
@@ -88,13 +88,11 @@ module.exports = async settings => {
   if (!runStartSequence(state)) return { ...state, status: 'aborted' }
 
   const random = seededRandom(state.seed)
-  let abortAt = random() < 1 / 1 && random()
-  console.log('abort at:', abortAt)
-  console.log('launch:', await runLaunchSequence(abortAt))
+  let abortAt = random() < 1 / 3 && random()
+  // console.debug('abort:', abortAt)
+  console.log(await runLaunchSequence(abortAt))
   if (abortAt) return { ...state, status: 'aborted' }
 
   let explodeAt = random() < 1 / 5 && random()
-  await runMission(state, explodeAt)
-
-  return mission
+  return await runMission(state, explodeAt)
 }
