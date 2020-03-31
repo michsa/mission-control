@@ -45,7 +45,11 @@ const updateMission = state => {
   let interval = new Qty(updateInterval, 'ms')
 
   // stop burning when we run out of fuel (100% accurate true physics)
-  if (state.fuel.scalar <= 0) state.burnRate.scalar = 0
+  if (state.fuelRemaining.scalar <= 0) state.burnRate.scalar = 0
+  else
+    state.burnRate = state.burnRate.add(
+      state.targetBurnRate.sub(state.burnRate).div(2, '')
+    )
 
   state.currentSpeed = state.currentSpeed.add(state.acceleration.mul(interval))
   let samples = state.timeElapsed.div(new Qty(updateInterval, 'ms'))

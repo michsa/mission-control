@@ -36,7 +36,7 @@ module.exports = settings => ({
     if (x.gt(this.fuel)) x = this.fuel
     this._fuelBurned = x
   },
-  burnRate: new Qty(settings.targetBurnRate),
+  burnRate: new Qty(0, 'l/s'),
 
   // --- computed ---
 
