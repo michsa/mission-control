@@ -8,7 +8,7 @@ const { missionStatus, statusBanner } = require('./messages')
 const createMissionState = require('./missionState')
 const seededRandom = require('./random')
 
-const countdown = 3000 // ms
+const countdownLength = 3000 // ms
 
 // runs through the sequence of prompts leading up to launching the rocket.
 // returns true if successful, false if aborted (determined by seeded rng)
@@ -28,14 +28,22 @@ const runStartSequence = state => {
 const runLaunchSequence = async abortAt =>
   new Promise(resolve => {
     process.stdout.write('Launching in ')
-    let time = countdown
+    let time = countdownLength
+    let second
     let interval = setInterval(() => {
-      process.stdout.write(time % 1000 ? '.' : (time / 1000).toFixed(0))
-      let shouldAbort = abortAt && time / countdown < abortAt
+      // print the second when it changes, and a period every other loop
+      let currentSecond = Math.ceil(time / 1000)
+      if (second !== currentSecond) {
+        second = currentSecond
+        process.stdout.write(second.toFixed(0))
+      } else process.stdout.write('.')
+      // update and possibly exit our loop
       time -= 200
+      let shouldAbort = abortAt && time / countdownLength < abortAt
       if (time <= 0 || shouldAbort) {
         clearInterval(interval)
-        resolve(time <= 0 ? 'LAUNCH!' : '')
+        // only say launch if this is definitely not an aborted mission
+        resolve(time > 0 || abortAt ? '' : 'LAUNCH!')
       }
     }, 200)
   })
@@ -48,7 +56,7 @@ const updateMission = state => {
   if (state.fuelRemaining.scalar <= 0) state.burnRate.scalar = 0
   else
     state.burnRate = state.burnRate.add(
-      state.targetBurnRate.sub(state.burnRate).div(2, '')
+      state.targetBurnRate.sub(state.burnRate).div(4, '')
     )
 
   state.currentSpeed = state.currentSpeed.add(state.acceleration.mul(interval))
