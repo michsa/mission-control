@@ -17,7 +17,7 @@ let main = async () => {
       let missionResults = await runMission(settings)
       missions.push(missionResults)
       programSummary(missions)
-      playAgain = rls.keyInYN('Would you like to run another mission?')
+      playAgain = rls.keyInYN('\nWould you like to run another mission?')
     }
   } catch (e) {
     console.error(e)

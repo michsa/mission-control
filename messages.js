@@ -27,6 +27,7 @@ const missionPlan = settings => {
 }
 
 const missionStatus = state => {
+  let fuelPercent = (state.percentFuelRemaining * 100).toFixed(0)
   console.log(`
 ===============================
         MISSION STATUS             
@@ -40,11 +41,9 @@ Time to arrval : ${state.timeToDestination.to('s').toPrec(0.1)}
   Acceleration : ${state.acceleration.to('m/s*s').toPrec(0.01)}
 -------------------------------
 Fuel burn rate : ${state.burnRate}
-   Fuel burned : ${state.fuelBurned.toPrec(0.1)}
-Fuel remaining : ${state.fuelRemaining.toPrec(0.1)}
+Fuel remaining : (${fuelPercent}%) ${state.fuelRemaining.toPrec(0.1)}
     Total mass : ${state.mass.toPrec(0.1)}
         Thrust : ${state.thrust.to('N').toPrec(0.1)}
-   Random seed : ${state.seed}
 -------------------------------`)
 }
 
