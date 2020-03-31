@@ -41,6 +41,8 @@ Time to arrval : ${state.timeToDestination.to('s').toPrec(0.1)}
 -------------------------------
 Fuel burn rate : ${state.burnRate}
 Fuel remaining : ${state.fuel.toPrec(0.1)}
+   Fuel burned : ${state.fuelBurned.toPrec(0.1)}
+Fuel remaining : ${state.fuelRemaining.toPrec(0.1)}
     Total mass : ${state.mass.toPrec(0.1)}
         Thrust : ${state.thrust.to('N').toPrec(0.1)}
    Random seed : ${state.seed}

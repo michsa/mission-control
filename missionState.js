@@ -40,6 +40,12 @@ module.exports = settings => ({
 
   // --- computed ---
 
+  get fuelRemaining() {
+    return this.fuel.sub(this.fuelBurned)
+  },
+  get percentFuelRemaining() {
+    return this.fuelRemaining.div(this.fuel)
+  },
   get timeToDestination() {
     return this.averageSpeed.scalar
       ? this.distance.sub(this.distanceTraveled).div(this.averageSpeed)
